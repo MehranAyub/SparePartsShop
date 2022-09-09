@@ -43,11 +43,36 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 function Customers() {
   const [customerList, setCustomerList] = useState([]);
+  const [name, setName] = useState("");
+  const [foundUsers, setFoundUsers] = useState();
+
+  const filter = (e) => {
+    const keyword = e.target.value;
+
+    if (keyword !== "") {
+      const results = customerList.filter((user) => {
+        return (
+          user.fName.toLowerCase().startsWith(keyword.toLowerCase()) ||
+          user.lName.toLowerCase().startsWith(keyword.toLowerCase()) ||
+          user.email.toLowerCase().startsWith(keyword.toLowerCase())
+        );
+        // Use the toLowerCase() method to make it case-insensitive
+      });
+      setFoundUsers(results);
+    } else {
+      setFoundUsers(customerList);
+      // If the text field is empty, show all users
+    }
+
+    setName(keyword);
+  };
+
   useEffect(() => {
     axios
       .get("https://localhost:7268/api/Customer")
       .then((res) => {
         setCustomerList(res.data);
+        setFoundUsers(res.data);
         console.log(res);
       })
       .catch((err) => {
@@ -63,6 +88,8 @@ function Customers() {
         <CardContent>
           <Box sx={{ maxWidth: 500 }}>
             <TextField
+              value={name}
+              onChange={filter}
               fullWidth
               InputProps={{
                 startAdornment: (
@@ -90,16 +117,20 @@ function Customers() {
           </TableHead>
 
           <TableBody>
-            {customerList.map((item) => (
-              <StyledTableRow key={item.id}>
-                <StyledTableCell component="th" scope="row">
-                  {item.fName + " " + item.lName}
-                </StyledTableCell>
-                <StyledTableCell align="left">{item.email}</StyledTableCell>
-                <StyledTableCell align="left">{item.address}</StyledTableCell>
-                <StyledTableCell align="left">{item.phone}</StyledTableCell>
-              </StyledTableRow>
-            ))}
+            {foundUsers && foundUsers.length > 0 ? (
+              foundUsers.map((item) => (
+                <StyledTableRow key={item.id}>
+                  <StyledTableCell component="th" scope="row">
+                    {item.fName + " " + item.lName}
+                  </StyledTableCell>
+                  <StyledTableCell align="left">{item.email}</StyledTableCell>
+                  <StyledTableCell align="left">{item.address}</StyledTableCell>
+                  <StyledTableCell align="left">{item.phone}</StyledTableCell>
+                </StyledTableRow>
+              ))
+            ) : (
+              <h5>No results found!</h5>
+            )}
           </TableBody>
         </Table>
       </TableContainer>
