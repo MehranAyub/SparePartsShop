@@ -114,7 +114,7 @@ const Index = ({ children }) => {
 
         <List>
           <ListItem className="listHover" disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={() => goToPage("/dashboard")}>
               <ListItemIcon>
                 <DashboardIcon sx={{ color: "#ffff" }} />
               </ListItemIcon>

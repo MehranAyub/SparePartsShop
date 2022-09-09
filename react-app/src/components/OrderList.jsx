@@ -75,9 +75,9 @@ function OrderList() {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 12 }}>
+    <Container maxWidth="lg" sx={{ mt: 6 }}>
       <Card>
-        <Typography sx={{ mt: 5, ml: 2 }} variant="h5">
+        <Typography sx={{ mt: 1, ml: 2 }} variant="h5">
           Orders
         </Typography>
         <CardContent></CardContent>
