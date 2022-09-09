@@ -1,5 +1,4 @@
 import { Outlet, Link } from "react-router-dom";
-import NavbarComponent from "./components/NavbarComponent";
 import { UserContext } from "./components/UserContext";
 import { useState, useMemo } from "react";
 import AdminLayout from "./Layouts/Admin/Index";

@@ -1,5 +1,6 @@
 import * as React from "react";
 import Card from "@mui/material/Card";
+import { useState, useEffect } from "react";
 import { Divider, Grid } from "@mui/material";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
@@ -7,7 +8,7 @@ import CardContent from "@mui/material/CardContent";
 import Avatar from "@mui/material/Avatar";
 import { red } from "@mui/material/colors";
 import { useParams } from "react-router-dom";
-import pic from "../assets/Headphones.jpg";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
@@ -19,6 +20,8 @@ import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import Paper from "@mui/material/Paper";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -38,32 +41,44 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   // hide last border
   "&:last-child td, &:last-child th": {
     border: 0,
-    width: 140,
   },
 }));
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
-const steps = ["Recieved", "Acc./Rej.", "Approved", "Delivered"];
+const steps = ["Recieved", "Acc./Rej.", "Deliver"];
 
 export default function OrderDetail() {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const [productList, setproductList] = useState([]);
+  const [order, setOrder] = useState({});
+  useEffect(() => {
+    axios
+      .get("https://localhost:7268/api/Order/" + id + "/detail")
+      .then((res) => {
+        console.log(res);
+        setOrder(res.data);
 
+        setproductList(res.data.orderDetail);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   return (
     <container>
+      <ArrowBackIcon
+        sx={{ mt: 10, ml: 5, cursor: "pointer" }}
+        fontSize="large"
+        onClick={() => {
+          navigate("/orderList");
+        }}
+      />
+
       <Card
         sx={{
           maxWidth: 650,
-          mt: 12,
-          ml: "20%",
+          ml: "25%",
           mb: 10,
+          borderRadius: 5,
         }}
       >
         <CardHeader
@@ -72,7 +87,7 @@ export default function OrderDetail() {
               R
             </Avatar>
           }
-          title="Mehran Ayub"
+          title={order.customer}
           subheader="Order Detail"
         />
         <Divider />
@@ -85,21 +100,21 @@ export default function OrderDetail() {
           >
             <Grid textAlign="center" item>
               <b>
-                <p style={{ fontSize: "22px" }}>$400</p>
+                <p style={{ fontSize: "22px" }}>${order.totalBill}</p>
               </b>
               <p style={{ fontSize: "12px" }}>Total Bill</p>
             </Grid>
             <Divider flexItem orientation="vertical" />
             <Grid textAlign="center" item>
               <b>
-                <p style={{ fontSize: "22px" }}>4</p>
+                <p style={{ fontSize: "22px" }}>{order.noOfItems}</p>
               </b>
               <p style={{ fontSize: "12px" }}>Items</p>
             </Grid>
             <Divider flexItem orientation="vertical" />
             <Grid textAlign="center" item>
               <b>
-                <p style={{ fontSize: "22px" }}>48H</p>
+                <p style={{ fontSize: "22px" }}>{order.time}</p>
               </b>
               <p style={{ fontSize: "12px" }}>Order Time</p>
             </Grid>
@@ -115,7 +130,18 @@ export default function OrderDetail() {
         <Divider />
         <CardContent>
           <Box sx={{ width: "100%" }}>
-            <Stepper activeStep={2} alternativeLabel>
+            <Stepper
+              activeStep={
+                order.status === 0
+                  ? 1
+                  : order.status === -1
+                  ? 2
+                  : order.status === 1
+                  ? 2
+                  : 3
+              }
+              alternativeLabel
+            >
               {steps.map((label) => (
                 <Step key={label}>
                   <StepLabel>{label}</StepLabel>
@@ -130,22 +156,27 @@ export default function OrderDetail() {
           <TableHead>
             <TableRow>
               <StyledTableCell>Image</StyledTableCell>
-              <StyledTableCell align="right">Product Name</StyledTableCell>
-              <StyledTableCell align="right">Price</StyledTableCell>
-              <StyledTableCell align="right">Quantity</StyledTableCell>
+              <StyledTableCell align="left">Product Name</StyledTableCell>
+              <StyledTableCell align="left">Price</StyledTableCell>
+              <StyledTableCell align="left">Quantity</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <StyledTableRow key={row.name}>
+            {productList.map((item) => (
+              <StyledTableRow key={item.productName}>
                 <StyledTableCell component="th" scope="row">
                   <div>
-                    <img src={pic} style={{ height: "70px" }}></img>
+                    <img
+                      src={"https://localhost:7268/Assets/" + item.image}
+                      style={{ height: "70px" }}
+                    ></img>
                   </div>
                 </StyledTableCell>
-                <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                <StyledTableCell align="right">{row.carbs}</StyledTableCell>
+                <StyledTableCell align="left">
+                  {item.productName}
+                </StyledTableCell>
+                <StyledTableCell align="left">${item.price}</StyledTableCell>
+                <StyledTableCell align="left">{item.quantity}</StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>

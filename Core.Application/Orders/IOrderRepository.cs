@@ -12,7 +12,7 @@ namespace Core.Application.Orders
     {
         IEnumerable<OrderListDto> GetAllOrders();
         Order GetOrderById(int orderId);
-        Order GetOrderWithDetails(int orderId);
+        OrderDto GetOrderWithDetails(int orderId);
         void CreateOrder(OrderDto order);
         void OrderActions(OrderListDto order);
     }

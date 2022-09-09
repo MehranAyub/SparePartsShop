@@ -44,31 +44,37 @@ namespace Core.Application.Orders
             return order;
         }
 
-        public Order GetOrderWithDetails(int Id)
+        public OrderDto GetOrderWithDetails(int Id)
         {
-           
-            // var  orders = _repositoryContext.Orders.Where(s => s.CustomerId == Id);
-            //if(orders!=null)
-            //Order query = null;
-            //var studentEntity = _repositoryContext.Students.Where(student => student.Id.Equals(studentId)).FirstOrDefault();
-            //if (studentEntity != null)
-            //{
-            //    var address = _repositoryContext.Addresses.Where(address => address.Id.Equals(studentEntity.AddressId)).FirstOrDefault();
-            //    query = new Student
-            //    {
-            //        Id = studentEntity.Id,
-            //        Address = address,
-            //        RollId = studentEntity.RollId,
-            //        Name = studentEntity.Name,
-            //        Age = studentEntity.Age,
-            //        Class = studentEntity.Class,
-            //        AdmissionDate = studentEntity.AdmissionDate,
-            //    };
-            //}
+            var order = _repositoryContext.Orders.FirstOrDefault(s => s.Id == Id);
+            var orderDetail = _repositoryContext.OrderDetails.Where(s => s.OrderId == Id).ToList();
+            var customer= _repositoryContext.Customers.FirstOrDefault(c => c.Id == order.CustomerId);
 
-
-            //return query;
-            return null;
+            var products = _repositoryContext.Products.ToList();
+            var records=new OrderDto();
+            if (orderDetail != null)
+            {
+                 records = new OrderDto
+                {   
+                    
+                     Status=order.Status,
+                    TotalBill = order.TotalBill,
+                    Time = TimeCounter(order.OrderDate),
+                    NoOfItems = orderDetail.Count(),
+                    Customer=customer.FName+" "+customer.LName,
+                    OrderDetail =(from o in orderDetail
+                                   join p in products on
+                                   o.ProductId equals p.Id
+                                   select new OrderDetails{
+                                         productName=p.ProductName,
+                                         price=p.UnitPrice,
+                                         image=p.Image,
+                                         Quantity=1
+                                   }).ToList()
+                };
+            }
+ 
+                return records;
         }
 
         public void CreateOrder(OrderDto order)
@@ -98,6 +104,15 @@ namespace Core.Application.Orders
             //_repositoryContext.Students.Remove(student);
             //_repositoryContext.Addresses.Remove(address);
 
+        }
+
+        public string TimeCounter(DateTime date)
+        {
+            TimeSpan orderTime = DateTime.Now-date;
+            string Days = string.Format("{0:%d}", orderTime);
+            string Hours = string.Format("{0:%h}", orderTime);
+            string time = Days+"D ,"+Hours+"H";
+            return time;
         }
     }
 }

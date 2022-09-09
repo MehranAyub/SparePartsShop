@@ -20,14 +20,6 @@ import {
   Button,
   Box,
 } from "@mui/material";
-import HP1 from "../assets/Headphones.jpg";
-import HP2 from "../assets/Headphones2.jpg";
-import HP3 from "../assets/Headphones3.jpg";
-import HP4 from "../assets/Headphones4.jpg";
-import HP5 from "../assets/Headphones5.jpg";
-import HP6 from "../assets/Headphones6.jpg";
-import HP7 from "../assets/Headphones7.jpg";
-import HP8 from "../assets/Headphones8.jpg";
 import { UserContext } from "./UserContext";
 
 export default function Products() {
@@ -41,7 +33,6 @@ export default function Products() {
     navigate(url);
   };
 
-  const urls = [HP1, HP2, HP3, HP4, HP5, HP6, HP7, HP8];
   const [products, setProducts] = useState([]);
   useEffect(() => {
     axios
@@ -152,7 +143,7 @@ export default function Products() {
                         variant="p"
                         component="span"
                       >
-                        R.S {product.unitPrice}
+                        <span className="price"> $ {product.unitPrice}</span>
                       </Typography>
                     </Grid>
                   </Grid>
