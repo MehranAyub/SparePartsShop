@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheShopWebApi.Dtos;
 
 namespace Core.Application.Products
 {
@@ -15,5 +16,6 @@ namespace Core.Application.Products
         void CreateProduct(Product product);
         void UpdateProduct(Product product);
         void DeleteProduct(Product product);
+        DashboardDto Counts();
     }
 }

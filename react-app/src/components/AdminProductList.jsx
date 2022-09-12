@@ -198,7 +198,12 @@ function AdminProductList() {
                         color="primary"
                         aria-label="add to shopping cart"
                       >
-                        <EditIcon />
+                        <EditIcon
+                          onClick={() => {
+                            setFormData({ ProductName: product.productName });
+                            handleClickOpen();
+                          }}
+                        />
                       </IconButton>
                     </Grid>
                     <Grid item>

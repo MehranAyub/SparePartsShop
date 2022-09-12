@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheShopWebApi.Dtos;
 
 namespace Core.Application.Products
 {
@@ -71,6 +72,16 @@ namespace Core.Application.Products
             //_repositoryContext.Students.Remove(student);
             //_repositoryContext.Addresses.Remove(address);
 
+        }
+        public DashboardDto Counts()
+        {
+            DashboardDto dto = new DashboardDto();
+
+            dto.Orders = _repositoryContext.Orders.Count();
+            dto.Customers = _repositoryContext.Customers.Count();
+            dto.DeliveredOrders = _repositoryContext.Orders.Where(o=>o.Status==2).Count();
+           dto.Products= _repositoryContext.Products.Count();
+            return dto;
         }
     }
 }

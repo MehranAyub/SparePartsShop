@@ -18,7 +18,7 @@ export const DeliveredOrders = (props) => (
             Delivered Orders
           </Typography>
           <Typography color="textPrimary" variant="h4">
-            75.5%
+            {props.count}%
           </Typography>
         </Grid>
         <Grid item>
@@ -34,7 +34,7 @@ export const DeliveredOrders = (props) => (
         </Grid>
       </Grid>
       <Box sx={{ pt: 3 }}>
-        <LinearProgress value={75.5} variant="determinate" />
+        <LinearProgress value={props.count} variant="determinate" />
       </Box>
     </CardContent>
   </Card>

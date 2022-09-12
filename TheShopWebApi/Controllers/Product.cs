@@ -174,5 +174,23 @@ namespace TheShopWebApi.Controllers
                 return StatusCode(500, "Internal server error " + ex);
             }
         }
+        [HttpGet("DashboardCall")]
+        public IActionResult DashboardCall()
+        {
+            try
+            {
+                var count = _repository.Product.Counts();
+
+                if (count == null)
+                {
+                    return NotFound();
+                }
+                return Ok(count);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error " + ex);
+            }
+        }
     }
 }

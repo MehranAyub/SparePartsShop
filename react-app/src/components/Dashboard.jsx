@@ -3,10 +3,25 @@ import { Container, Grid, Box } from "@mui/material";
 import { TotalCustomers } from "./TotalCustomersTicket";
 import { TotalOrders } from "./TotalOrdersTicket";
 import { DeliveredOrders } from "./DeliveredOrdersTicket";
-import { TotalProfit } from "./TotalProfitTicket";
-import { LatestOrders } from "./LatestOrders";
+import { TotalProducts } from "./TotalProducts";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import OrderList from "./OrderList";
 function Dashboard() {
+  const [DashboardData, setDashboardData] = useState({});
+  useEffect(() => {
+    axios
+      .get("https://localhost:7268/api/Product/DashboardCall")
+      .then((res) => {
+        setDashboardData(res.data);
+        console.log(res.data);
+        console.log(DashboardData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <Container maxWidth="lg" sx={{ mt: 8 }}>
       <Box
@@ -19,16 +34,23 @@ function Dashboard() {
         <Container maxWidth={false}>
           <Grid container spacing={3}>
             <Grid item lg={3} sm={6} xl={3} xs={12}>
-              <TotalCustomers />
+              <TotalCustomers count={DashboardData.customers} />
             </Grid>
             <Grid item xl={3} lg={3} sm={6} xs={12}>
-              <TotalOrders />
+              <TotalOrders count={DashboardData.orders} />
             </Grid>
             <Grid item xl={3} lg={3} sm={6} xs={12}>
-              <DeliveredOrders />
+              <DeliveredOrders
+                count={
+                  (DashboardData.deliveredOrders / DashboardData.orders) * 100
+                }
+              />
             </Grid>
             <Grid item xl={3} lg={3} sm={6} xs={12}>
-              <TotalProfit sx={{ height: "100%" }} />
+              <TotalProducts
+                count={DashboardData.products}
+                sx={{ height: "100%" }}
+              />
             </Grid>
             {/* <Grid item lg={8} md={12} xl={9} xs={12}></Grid> */}
             {/* <Grid item lg={4} md={6} xl={3} xs={12}>

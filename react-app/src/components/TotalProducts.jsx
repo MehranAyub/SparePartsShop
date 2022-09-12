@@ -1,6 +1,6 @@
 import {
-  Avatar,
   Box,
+  Avatar,
   Card,
   CardContent,
   Grid,
@@ -8,10 +8,9 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import LaunchIcon from "@mui/icons-material/Launch";
-import { pink } from "@mui/material/colors";
-import LayersIcon from "@mui/icons-material/Layers";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
-export const TotalOrders = (props) => {
+export const TotalProducts = (props) => {
   const navigate = useNavigate();
   return (
     <Card>
@@ -19,7 +18,7 @@ export const TotalOrders = (props) => {
         <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
           <Grid item>
             <Typography color="textSecondary" gutterBottom variant="overline">
-              TOTAL Orders
+              TOTAL Products
             </Typography>
             <Typography color="textPrimary" variant="h4">
               {props.count}
@@ -28,12 +27,12 @@ export const TotalOrders = (props) => {
           <Grid item>
             <Avatar
               sx={{
-                bgcolor: pink[500],
+                backgroundColor: "primary.main",
                 height: 56,
                 width: 56,
               }}
             >
-              <LayersIcon />
+              <ShoppingCartIcon />
             </Avatar>
           </Grid>
         </Grid>
@@ -53,7 +52,7 @@ export const TotalOrders = (props) => {
             }}
           />
           <Typography color="textSecondary" variant="caption">
-            &nbsp; Go to Orders
+            &nbsp; Go to Products
           </Typography>
         </Box>
       </CardContent>
