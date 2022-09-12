@@ -48,7 +48,7 @@ export const TotalProducts = (props) => {
             color="success"
             sx={{ cursor: "pointer" }}
             onClick={() => {
-              navigate("/orderList");
+              navigate("/addProducts");
             }}
           />
           <Typography color="textSecondary" variant="caption">

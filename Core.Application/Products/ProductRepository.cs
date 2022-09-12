@@ -79,8 +79,11 @@ namespace Core.Application.Products
 
             dto.Orders = _repositoryContext.Orders.Count();
             dto.Customers = _repositoryContext.Customers.Count();
-            dto.DeliveredOrders = _repositoryContext.Orders.Where(o=>o.Status==2).Count();
-           dto.Products= _repositoryContext.Products.Count();
+            dto.PendingOrders = _repositoryContext.Orders.Where(o => o.Status == 0).Count();
+            dto.ApprovedOrders = _repositoryContext.Orders.Where(o=>o.Status==1).Count();
+            dto.DeliveredOrders = _repositoryContext.Orders.Where(o => o.Status == 2).Count();
+            dto.CancelledOrders = _repositoryContext.Orders.Where(o => o.Status == -1).Count();
+            dto.Products= _repositoryContext.Products.Count();
             return dto;
         }
     }

@@ -1,4 +1,5 @@
 import React from "react";
+import { Pie } from "react-chartjs-2";
 import { Container, Grid, Box } from "@mui/material";
 import { TotalCustomers } from "./TotalCustomersTicket";
 import { TotalOrders } from "./TotalOrdersTicket";
@@ -7,6 +8,9 @@ import { TotalProducts } from "./TotalProducts";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import OrderList from "./OrderList";
+import PieChartComponent from "./PieChartComponent";
+import BarChart from "./BarChart";
+
 function Dashboard() {
   const [DashboardData, setDashboardData] = useState({});
   useEffect(() => {
@@ -59,7 +63,10 @@ function Dashboard() {
             {/* <Grid item lg={4} md={6} xl={3} xs={12}>
               <TotalCustomers sx={{ height: "100%" }} />
             </Grid> */}
-            <Grid item lg={12} md={12} xl={12} xs={12}>
+            <Grid mt={5} item lg={12} md={12} xl={12} xs={12}>
+              <BarChart object={DashboardData} />
+            </Grid>
+            <Grid item lg={8} md={8} xl={12} xs={12}>
               <OrderList />
             </Grid>
           </Grid>
