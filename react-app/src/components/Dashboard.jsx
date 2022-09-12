@@ -1,5 +1,4 @@
 import React from "react";
-import { Pie } from "react-chartjs-2";
 import { Container, Grid, Box } from "@mui/material";
 import { TotalCustomers } from "./TotalCustomersTicket";
 import { TotalOrders } from "./TotalOrdersTicket";
@@ -8,7 +7,6 @@ import { TotalProducts } from "./TotalProducts";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import OrderList from "./OrderList";
-import PieChartComponent from "./PieChartComponent";
 import BarChart from "./BarChart";
 
 function Dashboard() {

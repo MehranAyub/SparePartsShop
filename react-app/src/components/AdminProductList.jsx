@@ -121,15 +121,7 @@ function AdminProductList() {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 8 }}>
-      <h5>
-        Hi{" "}
-        {user !== null
-          ? "Admin"
-          : "Dear Customer, please login to continue shopping."}{" "}
-        <hr />
-      </h5>
-
+    <Container maxWidth="lg" sx={{ mt: 12 }}>
       <Grid container spacing={4} alignItems="center">
         <Grid
           item

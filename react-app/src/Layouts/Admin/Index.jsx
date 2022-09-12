@@ -56,11 +56,11 @@ const Index = ({ children }) => {
           justifyContent="flex-end"
           alignItems="flex-start"
           spacing={2}
-          mt={1}
+          mt={0}
         >
-          <Grid item>
+          {/* <Grid item>
             <SettingsIcon sx={{ mt: 1 }} color="primary" fontSize="medium" />
-          </Grid>
+          </Grid> */}
           <Grid item>
             <NotificationsActiveIcon
               sx={{ mt: 1 }}

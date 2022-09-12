@@ -39,7 +39,7 @@ export default function Login() {
             // navigate("/products");
             window.location.href = "/products";
           } else {
-            window.location.href = "/addProducts";
+            window.location.href = "/dashboard";
           }
         }
       })
