@@ -10,7 +10,7 @@ namespace TheShopWebApi.Controllers
     [ApiController]
     public class Product : ControllerBase
     {
-        private  readonly IRepositoryWrapper _repository;
+        private readonly IRepositoryWrapper _repository;
 
         public Product(IRepositoryWrapper repositoryWrapper)
         {
@@ -56,38 +56,46 @@ namespace TheShopWebApi.Controllers
         [HttpPost]
         public IActionResult CreateProduct()
         {
-
-
-
-
-            var fileName = "";
-                    // 1. get the file form the request
+            try { 
+                var product = JsonConvert.DeserializeObject<Core.Data.Entities.Product>(Request.Form["form"]) ?? new Core.Data.Entities.Product();
+                var fileName = "";
+                var isFile = Request.Form.Files.Count;
+                if (isFile > 0)
+                {
                     var postedFile = Request.Form.Files[0];
-                    // 2. set the file uploaded folder
-                    var uploadFolder = Path.Combine(Directory.GetCurrentDirectory(), "Assets");
-                    // 3. check for the file length, if it is more than 0 the save it
                     if (postedFile.Length > 0)
                     {
-                        // 3a. read the file name of the received file
-                         fileName = ContentDispositionHeaderValue.Parse(postedFile.ContentDisposition).FileName.Trim('"');
-                // 3b. save the file on Path
-                var finalPath = Path.Combine(uploadFolder, fileName);
+                        var uploadFolder = Path.Combine(Directory.GetCurrentDirectory(), "Assets");
+                        fileName = ContentDispositionHeaderValue.Parse(postedFile.ContentDisposition).FileName?.Trim('"');
+                        var finalPath = Path.Combine(uploadFolder, fileName);
                         using (var fileStream = new FileStream(finalPath, FileMode.Create))
                         {
                             postedFile.CopyTo(fileStream);
                         }
-                       
+                        product.Image = fileName;
                     }
 
-               var product = JsonConvert.DeserializeObject<Core.Data.Entities.Product>(Request.Form["form"])?? new Core.Data.Entities.Product();
-            product.Image = fileName;
-            
-            _repository.Product.CreateProduct(product);
-            _repository.Save();
+                }
 
 
-            return Ok(product);
+            if (product.Id == 0)
+            {
+               
+                _repository.Product.CreateProduct(product);
+                _repository.Save();
+                    return Ok(product);
+                }
+            else
+            {
+                UpdateProduct(product);
+                    return StatusCode(250); //Status code if object is updated succefully
+                }
             
+        }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
            
         }
         //public IActionResult UploadFile()

@@ -36,6 +36,7 @@ function AdminProductList() {
   const [fileName, setFileName] = useState();
   const { value, setValue } = useContext(UserContext);
   const [open, setOpen] = React.useState(false);
+  const [update, seUpdate] = useState(false);
 
   const saveFile = (e) => {
     setFile(e.target.files[0]);
@@ -55,16 +56,17 @@ function AdminProductList() {
   const urls = [HP1, HP2, HP3, HP4, HP5, HP6, HP7, HP8];
   const [products, setProducts] = useState([]);
   useEffect(() => {
+    console.log("run Use Effect");
+
     axios
       .get("https://localhost:7268/api/Product")
       .then((res) => {
         setProducts(res.data);
-        console.log(res);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [update]);
   console.log("values", value);
   const customStyles = {
     content: {
@@ -81,6 +83,7 @@ function AdminProductList() {
 
   const [showErrorMessage, setShowErrorMessage] = useState("");
   const [formData, setFormData] = useState({
+    Id: 0,
     ProductName: "",
     UnitPrice: null,
     UnitsInStock: null,
@@ -89,12 +92,10 @@ function AdminProductList() {
   });
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
-    console.log(formData);
   };
   const handleSubmit = (event) => {
     event.preventDefault();
     const formFile = new FormData();
-    console.log(formData);
 
     formFile.append("file", file);
     formFile.append("fileName", fileName);
@@ -111,7 +112,15 @@ function AdminProductList() {
         console.log(response);
 
         handleClose();
-        setProducts([...products, response.data]);
+        if (response.statusCode === 250) {
+          seUpdate((current) => !current);
+          console.log("statudcodre");
+        } else {
+          setProducts([...products, response.data]);
+        }
+        // setProducts([...products, response.data]);
+
+        console.log("return from api");
         setFormData({});
       })
       .catch(function (error) {
@@ -129,12 +138,6 @@ function AdminProductList() {
           md={12}
           style={{ textAlign: "right", marginRight: 20 }}
         >
-          {/* <Button
-            style={{ borderRadius: 50 }}
-            onClick={handleClickOpen}
-            variant="contained"
-            size="small"
-          > */}
           <AddCircleIcon
             sx={{ borderRadius: 50, fontSize: "40px", cursor: "pointer" }}
             color="primary"
@@ -192,7 +195,14 @@ function AdminProductList() {
                       >
                         <EditIcon
                           onClick={() => {
-                            setFormData({ ProductName: product.productName });
+                            setFormData({
+                              Id: product.id,
+                              ProductName: product.productName,
+                              UnitPrice: product.unitPrice,
+                              UnitsInStock: product.unitsInStock,
+                              ProductDescription: product.productDescription,
+                              Image: product.image,
+                            });
                             handleClickOpen();
                           }}
                         />
@@ -276,7 +286,6 @@ function AdminProductList() {
                   type="file"
                   fullWidth
                   size="large"
-                  value={formData.Image}
                   onChange={saveFile}
                 />
               </Grid>

@@ -23,9 +23,9 @@ namespace Core.Application.Products
             return _repositoryContext.Products.OrderBy(s => s.ProductName).ToList();
         }
 
-        public Product GetProductById(int studentId)
+        public Product GetProductById(int productId)
         {
-            var product = _repositoryContext.Products.FirstOrDefault(s => s.Id == studentId);
+            var product = _repositoryContext.Products.FirstOrDefault(s => s.Id == productId);
             return product;
         }
 
@@ -59,14 +59,14 @@ namespace Core.Application.Products
 
         }
 
-        public void UpdateProduct(Product student)
+        public void UpdateProduct(Product product)
         {
 
-            _repositoryContext.Products.Update(student);
+            _repositoryContext.Products.Update(product);
 
         }
 
-        public void DeleteProduct(Product student)
+        public void DeleteProduct(Product product)
         {
             //var address = _repositoryContext.Addresses.FirstOrDefault(address => address.Id.Equals(student.AddressId));
             //_repositoryContext.Students.Remove(student);
