@@ -3,6 +3,7 @@ import Button from "react-bootstrap/esm/Button";
 import { useNavigate } from "react-router-dom";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Navbar from "react-bootstrap/Navbar";
+import PrecisionManufacturingIcon from "@mui/icons-material/PrecisionManufacturing";
 
 function NavbarComponent() {
   const navigate = useNavigate();
@@ -11,12 +12,22 @@ function NavbarComponent() {
     user = JSON.parse(localStorage.getItem("user"));
     if (user !== null) {
       return (
-        <ButtonGroup className="me-2">
+        <ButtonGroup
+          size="small"
+          className="me-2"
+          aria-label="small button group"
+        >
           <Button
             variant="outline-success"
             onClick={() => navToPage("/products")}
           >
             Products
+          </Button>
+          <Button
+            variant="outline-success"
+            onClick={() => navToPage("/products")}
+          >
+            Orders
           </Button>
           <Button variant="outline-success" onClick={() => Logout("/login")}>
             Logout
@@ -49,8 +60,9 @@ function NavbarComponent() {
   };
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+      <PrecisionManufacturingIcon sx={{ color: "#fff", fontSize: 40 }} />{" "}
       <Container fluid>
-        <Navbar.Brand>The ShopStore</Navbar.Brand>
+        <Navbar.Brand>The Dealers</Navbar.Brand>
         {NavbarButtons()}
       </Container>
     </Navbar>

@@ -142,7 +142,7 @@ export default function Checkout() {
                   </StyledTableCell>
                   <StyledTableCell style={{ color: "red" }} align="right">
                     <h6>
-                      <b>{results}</b>
+                      <b>$ {results}</b>
                     </h6>
                   </StyledTableCell>
                   <StyledTableCell align="right"></StyledTableCell>

@@ -63,20 +63,13 @@ export default function Products() {
           md={12}
           style={{ textAlign: "right", marginRight: 20 }}
         >
-          <Button
-            onClick={() => navToPage(user !== null ? "/checkout" : "/login")}
-            variant="outlined"
-            size="small"
-            startIcon={
-              <IconButton aria-label="cart">
-                <Badge badgeContent={value.length} color="secondary">
-                  <ShoppingCartCheckoutIcon />
-                </Badge>
-              </IconButton>
-            }
-          >
-            Checkout
-          </Button>
+          <Badge badgeContent={value.length} color="secondary">
+            <ShoppingCartCheckoutIcon
+              sx={{ borderRadius: 50, fontSize: "30px", cursor: "pointer" }}
+              color="primary"
+              onClick={() => navToPage(user !== null ? "/checkout" : "/login")}
+            />
+          </Badge>
         </Grid>
         {products.map((product) => (
           <Grid item xs={12} md={3} key={product.id} justifyContent="center">
@@ -102,7 +95,12 @@ export default function Products() {
                   />
                 </CardMedia>
                 <CardContent sx={{ height: 150 }}>
-                  <Typography gutterBottom variant="h5" component="div">
+                  <Typography
+                    sx={{ fontFamily: "Georgia" }}
+                    gutterBottom
+                    variant="h6"
+                    component="div"
+                  >
                     {product.productName}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">

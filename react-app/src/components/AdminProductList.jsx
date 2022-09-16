@@ -36,17 +36,24 @@ function AdminProductList() {
   const [fileName, setFileName] = useState();
   const { value, setValue } = useContext(UserContext);
   const [open, setOpen] = React.useState(false);
-  const [update, seUpdate] = useState(false);
+  const [update, setUpdate] = useState(false);
+  const [AddOrEdit, setAddOrEdit] = useState(false);
 
   const saveFile = (e) => {
     setFile(e.target.files[0]);
     setFileName(e.target.files[0].name);
   };
-  const handleClickOpen = () => {
+  const handleClickOpen = (e) => {
+    if (e === true) {
+      setAddOrEdit(true);
+    } else {
+      setAddOrEdit(false);
+    }
     setOpen(true);
   };
 
   const handleClose = () => {
+    setFormData({});
     setOpen(false);
   };
 
@@ -56,8 +63,6 @@ function AdminProductList() {
   const urls = [HP1, HP2, HP3, HP4, HP5, HP6, HP7, HP8];
   const [products, setProducts] = useState([]);
   useEffect(() => {
-    console.log("run Use Effect");
-
     axios
       .get("https://localhost:7268/api/Product")
       .then((res) => {
@@ -113,14 +118,11 @@ function AdminProductList() {
 
         handleClose();
         if (response.statusCode === 250) {
-          seUpdate((current) => !current);
-          console.log("statudcodre");
+          setUpdate((current) => !current);
         } else {
           setProducts([...products, response.data]);
         }
-        // setProducts([...products, response.data]);
 
-        console.log("return from api");
         setFormData({});
       })
       .catch(function (error) {
@@ -141,7 +143,9 @@ function AdminProductList() {
           <AddCircleIcon
             sx={{ borderRadius: 50, fontSize: "40px", cursor: "pointer" }}
             color="primary"
-            onClick={handleClickOpen}
+            onClick={() => {
+              handleClickOpen(false);
+            }}
           />
           {/* </Button> */}
         </Grid>
@@ -203,7 +207,7 @@ function AdminProductList() {
                               ProductDescription: product.productDescription,
                               Image: product.image,
                             });
-                            handleClickOpen();
+                            handleClickOpen(true);
                           }}
                         />
                       </IconButton>
@@ -227,7 +231,9 @@ function AdminProductList() {
         ))}
       </Grid>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle alignSelf={"center"}>Add New Product</DialogTitle>
+        <DialogTitle alignSelf={"center"}>
+          {AddOrEdit === true ? "Edit " : "Add New "} Product
+        </DialogTitle>
         <DialogContent>
           <Box component="form" onSubmit={handleSubmit}>
             <Grid container spacing={2} justifyContent="flex-start">
@@ -310,7 +316,7 @@ function AdminProductList() {
 
             <DialogActions>
               <Button onClick={handleClose}>Cancel</Button>
-              <Button type="submit">Add</Button>
+              <Button type="submit">Save</Button>
             </DialogActions>
           </Box>
         </DialogContent>

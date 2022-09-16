@@ -5,7 +5,6 @@ import AppBar from "@mui/material/AppBar";
 import Avatar from "@mui/material/Avatar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -19,11 +18,9 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import PrecisionManufacturingIcon from "@mui/icons-material/PrecisionManufacturing";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import SettingsIcon from "@mui/icons-material/Settings";
 import LockIcon from "@mui/icons-material/Lock";
 import DensitySmallIcon from "@mui/icons-material/DensitySmall";
 import { useNavigate } from "react-router-dom";
-import { fontSize } from "@mui/system";
 
 const drawerWidth = 240;
 const user = JSON.parse(localStorage.getItem("user"));
@@ -58,9 +55,6 @@ const Index = ({ children }) => {
           spacing={2}
           mt={0}
         >
-          {/* <Grid item>
-            <SettingsIcon sx={{ mt: 1 }} color="primary" fontSize="medium" />
-          </Grid> */}
           <Grid item>
             <NotificationsActiveIcon
               sx={{ mt: 1 }}
@@ -72,18 +66,6 @@ const Index = ({ children }) => {
             <Avatar sx={{ mr: 1 }} alt={`Avatar`} src={HP2} />
           </Grid>
         </Grid>
-
-        {/* <Toolbar>
-          <Typography
-            variant="h6"
-            sx={{ color: "black" }}
-            noWrap
-            component="div"
-          >
-           
-          </Typography>
-        </Toolbar>
-        check */}
       </AppBar>
       <Drawer
         sx={{
@@ -153,14 +135,7 @@ const Index = ({ children }) => {
               <ListItemText primary="Account" />
             </ListItemButton>
           </ListItem>
-          <ListItem className="listHover" disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <SettingsIcon sx={{ color: "#ffff" }} />
-              </ListItemIcon>
-              <ListItemText primary="Settings" />
-            </ListItemButton>
-          </ListItem>
+
           <ListItem className="listHover" disablePadding>
             <ListItemButton onClick={() => Logout("/login")}>
               <ListItemIcon>
