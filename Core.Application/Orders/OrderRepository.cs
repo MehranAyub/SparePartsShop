@@ -38,9 +38,9 @@ namespace Core.Application.Orders
             return records;
         }
 
-        public Order GetOrderById(int orderId)
+        public List<Order> GetOrderById(int orderId)
         {
-            var order = _repositoryContext.Orders.FirstOrDefault(s => s.Id == orderId);
+            var order = _repositoryContext.Orders.Where(s => s.CustomerId == orderId).ToList();
             return order;
         }
 

@@ -96,7 +96,7 @@ export default function Checkout() {
   useEffect(() => {}, []);
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 12 }}>
+    <Container maxWidth="lg" sx={{ mt: 12, height: "77vh" }}>
       <Grid container spacing={4} justifyContent="flex-start">
         <Grid item xs={12} md={6}>
           <TableContainer component={Paper}>

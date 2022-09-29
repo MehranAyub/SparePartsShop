@@ -12,11 +12,9 @@ import TableRow from "@mui/material/TableRow";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import Paper from "@mui/material/Paper";
-import DoNotDisturbIcon from "@mui/icons-material/DoNotDisturb";
 import LaunchIcon from "@mui/icons-material/Launch";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import VerifiedIcon from "@mui/icons-material/Verified";
-import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import Moment from "react-moment";
+
 import { Card, CardContent, Typography } from "@mui/material";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -39,7 +37,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function OrderList() {
+function UserOrders() {
+  var user = null;
+  user = JSON.parse(localStorage.getItem("user"));
   const [orderList, setorderList] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
@@ -47,8 +47,9 @@ function OrderList() {
   }, []);
   const GetOrdersList = () => {
     axios
-      .get("https://localhost:7268/api/Order/GetAllOrders")
+      .get("https://localhost:7268/api/Order/OrdersByUserId/" + user.id)
       .then((res) => {
+        console.log(res);
         setorderList(res.data);
       })
       .catch((err) => {
@@ -75,10 +76,10 @@ function OrderList() {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 12, height: "80vh" }}>
+    <Container maxWidth="lg" sx={{ mt: 6, height: "79vh" }}>
       <Card>
         <Typography sx={{ mt: 1, ml: 2 }} variant="h5">
-          Orders
+          Your Orders
         </Typography>
         <CardContent></CardContent>
       </Card>
@@ -88,13 +89,10 @@ function OrderList() {
           <TableHead>
             <TableRow>
               <StyledTableCell> Order ID</StyledTableCell>
-              <StyledTableCell align="left">Customer</StyledTableCell>
               <StyledTableCell align="left">Date</StyledTableCell>
               <StyledTableCell align="left">Bill</StyledTableCell>
               <StyledTableCell align="left">Delivery Address</StyledTableCell>
               <StyledTableCell align="left">Status</StyledTableCell>
-              <StyledTableCell align="left">Action</StyledTableCell>
-              <StyledTableCell align="left">Order Detail</StyledTableCell>
             </TableRow>
           </TableHead>
 
@@ -104,12 +102,13 @@ function OrderList() {
                 <StyledTableCell align="left">
                   {"ON#" + item.id}
                 </StyledTableCell>
-                <StyledTableCell component="th" scope="row">
-                  {item.customer}
+                <StyledTableCell align="left">
+                  <Moment format="YYYY/MM/DD">{item.orderDate}</Moment>
                 </StyledTableCell>
-                <StyledTableCell align="left">{item.date}</StyledTableCell>
                 <StyledTableCell align="left">{item.totalBill}</StyledTableCell>
-                <StyledTableCell align="left">{item.address}</StyledTableCell>
+                <StyledTableCell align="left">
+                  {item.shipAddress}
+                </StyledTableCell>
                 <StyledTableCell align="left">
                   {item.status === 0 ? (
                     <span className="status">&nbsp; Pending</span>
@@ -138,51 +137,6 @@ function OrderList() {
                     ""
                   )}
                 </StyledTableCell>
-                <StyledTableCell align="left">
-                  {item.status === 0 ? (
-                    <>
-                      <DeleteForeverIcon
-                        sx={{ color: "red", cursor: "pointer" }}
-                        onClick={() => {
-                          Action(item.id, -1);
-                        }}
-                      />
-                      |&nbsp;
-                      <VerifiedIcon
-                        color="success"
-                        sx={{ cursor: "pointer" }}
-                        onClick={() => {
-                          Action(item.id, 1);
-                        }}
-                      />
-                    </>
-                  ) : item.status === 1 ? (
-                    <>
-                      &nbsp; &nbsp;
-                      <LocalShippingIcon
-                        sx={{ cursor: "pointer" }}
-                        color="success"
-                        fontSize="large"
-                        onClick={() => {
-                          Action(item.id, 2);
-                        }}
-                      />
-                    </>
-                  ) : (
-                    <>
-                      &nbsp; &nbsp;
-                      <DoNotDisturbIcon color="disabled" />
-                    </>
-                  )}
-                </StyledTableCell>
-                <StyledTableCell align="left">
-                  <LaunchIcon
-                    sx={{ cursor: "pointer" }}
-                    onClick={() => {
-                      navigate("/orderDetail/" + item.id);
-                    }}
-                  />
-                </StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
@@ -192,4 +146,4 @@ function OrderList() {
   );
 }
 
-export default OrderList;
+export default UserOrders;

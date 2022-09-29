@@ -11,7 +11,7 @@ namespace Core.Application.Orders
     public interface IOrderRepository
     {
         IEnumerable<OrderListDto> GetAllOrders();
-        Order GetOrderById(int orderId);
+        List<Order> GetOrderById(int orderId);
         OrderDto GetOrderWithDetails(int orderId);
         void CreateOrder(OrderDto order);
         void OrderActions(OrderListDto order);

@@ -153,7 +153,11 @@ const Index = ({ children }) => {
       </Drawer>
       <Box
         component="main"
-        sx={{ flexGrow: 1, bgcolor: "rgb(249, 250, 240)", p: 3 }}
+        sx={{
+          flexGrow: 1,
+          bgcolor: "rgb(249, 250, 240)",
+          p: 3,
+        }}
       >
         {children}
       </Box>

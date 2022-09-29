@@ -31,7 +31,7 @@ namespace TheShopWebApi.Controllers
             }
         }
 
-        [HttpGet("{id}", Name = "OrderById")]
+        [HttpGet("OrdersByUserId/{id}", Name = "OrdersByUserId")]
         public IActionResult GetOrderById(int id)
         {
             try

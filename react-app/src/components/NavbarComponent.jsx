@@ -25,7 +25,7 @@ function NavbarComponent() {
           </Button>
           <Button
             variant="outline-success"
-            onClick={() => navToPage("/products")}
+            onClick={() => navToPage("/userOrders")}
           >
             Orders
           </Button>

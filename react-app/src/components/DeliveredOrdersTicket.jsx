@@ -18,7 +18,7 @@ export const DeliveredOrders = (props) => (
             Delivered Orders
           </Typography>
           <Typography color="textPrimary" variant="h4">
-            {props.count}%
+            {Math.floor(props.count)}%
           </Typography>
         </Grid>
         <Grid item>

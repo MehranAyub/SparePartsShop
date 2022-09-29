@@ -101,3 +101,23 @@ code {
   justify-content: center;
   align-items: center;
 }
+.MuiCardContent-root
+  .MuiStepper-root
+  .dangerStep
+  .css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root.Mui-completed {
+  /* background-color: rgb(255, 72, 66); */
+  color: rgb(255, 72, 66);
+}
+
+.MuiCardContent-root
+  .MuiStepper-root
+  .disableStep
+  .css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root {
+  /* background-color: rgb(255, 72, 66); */
+  color: rgba(0, 0, 0, 0.38);
+}
+
+.MuiCardContent-root .css-z7uhs0-MuiStepConnector-line {
+  border-top-width: 4px;
+  border-radius: 4px;
+}

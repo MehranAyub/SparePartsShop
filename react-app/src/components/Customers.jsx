@@ -80,7 +80,7 @@ function Customers() {
       });
   }, []);
   return (
-    <Container maxWidth="lg" sx={{ mt: 12 }}>
+    <Container maxWidth="lg" sx={{ mt: 12, height: "80vh" }}>
       <Card>
         <Typography sx={{ m: 1 }} variant="h5">
           Customers

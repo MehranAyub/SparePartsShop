@@ -66,7 +66,7 @@ export default function Registration() {
     console.log(e.target.value);
   };
   return (
-    <Container maxWidth="sm" sx={{ mt: 12 }}>
+    <Container maxWidth="sm" sx={{ mt: 12, height: "75vh" }}>
       <Box component="form" onSubmit={handleSubmit}>
         <Grid container spacing={2} justifyContent="flex-start">
           <Grid item xs={12} md={12} style={{ textAlign: "center" }}>

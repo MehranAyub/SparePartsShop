@@ -24,6 +24,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Paper from "@mui/material/Paper";
 
+import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -43,7 +45,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
-const steps = ["Recieved", "Acc./Rej.", "Deliver"];
+const steps = ["Recieved", "Accepted", "Deliver"];
 
 export default function OrderDetail() {
   const { id } = useParams();
@@ -142,9 +144,29 @@ export default function OrderDetail() {
               }
               alternativeLabel
             >
-              {steps.map((label) => (
-                <Step key={label}>
-                  <StepLabel>{label}</StepLabel>
+              {steps.map((label, index) => (
+                <Step
+                  icon={<RemoveShoppingCartIcon />}
+                  className={
+                    order.status === -1 && index == 1
+                      ? "dangerStep"
+                      : (order.status === -1 && index == 0) ||
+                        (order.status === 2 &&
+                          (index == 0 || index == 1 || index == 2)) ||
+                        (order.status === 1 && (index == 0 || index == 1)) ||
+                        (order.status === 0 && index == 0)
+                      ? "activeStep"
+                      : "disableStep"
+                  }
+                  key={label}
+                >
+                  <StepLabel
+                    error={order.status === -1 && index == 1 ? true : false}
+                  >
+                    <b>
+                      {order.status === -1 && index == 1 ? "Rejected" : label}
+                    </b>
+                  </StepLabel>
                 </Step>
               ))}
             </Stepper>
