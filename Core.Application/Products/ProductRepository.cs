@@ -11,6 +11,7 @@ using TheShopWebApi.Dtos;
 namespace Core.Application.Products
 {
     internal class ProductRepository:IProductRepository
+
     {
         RepositoryContext _repositoryContext;
         public ProductRepository(RepositoryContext repositoryContext)

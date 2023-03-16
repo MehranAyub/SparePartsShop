@@ -2,6 +2,7 @@ using Core.Application;
 using Core.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ builder.Services.AddDbContext<RepositoryContext>(options => options.UseSqlServer
 builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+//builder.Services.AddDistributedRedisCache(Options => { Options.Configuration = "localhost:6379"; });
 builder.Services.AddCors(p => p.AddDefaultPolicy( builder =>
     {
         builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
